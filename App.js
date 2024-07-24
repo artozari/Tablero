@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Platform, StatusBar, ToastAndroid } from "react-native";
+import { SafeAreaView, StyleSheet, Platform, StatusBar, ToastAndroid, Alert } from "react-native";
 import Equipo from "./src/components/Equipo";
 import * as ScreenOrientation from "expo-screen-orientation";
 import React, { useContext, useEffect, useState } from "react";
@@ -10,15 +10,28 @@ export default function App() {
   const [visitante, setVisitante] = useState(0);
   const [ganador, setGanador] = useState(0);
   const [puntajeParaGanar, setPuntajeParaGanar] = useState(25);
+  const [nombreLocal, setNombreLocal] = useState("LOCAL");
+  const [nombreVisitante, setNombreVisitante] = useState("VISITA");
   const [game, setGame] = useState(true);
 
   const juegoTerminado = () => {
     diferenciaDe2(local, visitante)
-      ? (alert(`El equipo ${equipoGanador(local, visitante)} es el ganador`),
-        setGanador(equipoGanador(local, visitante)),
-        setLocal(0),
-        setVisitante(0),
-        setGame(false))
+      ? Alert.alert(
+          `El equipo ${equipoGanador(local, visitante) == 1 ? nombreLocal : nombreVisitante} es el ganador`,
+          "Terminar el partido?",
+          [
+            {
+              text: "Terminar Partido",
+              onPress: () => {
+                setGanador(equipoGanador(local, visitante));
+                setLocal(0);
+                setVisitante(0);
+              },
+            },
+            {},
+            { text: "Seguir Jugando", onPress: () => {} },
+          ]
+        )
       : ToastAndroid.show("aun no hay ganador", ToastAndroid.SHORT);
   };
 
@@ -26,8 +39,7 @@ export default function App() {
     if (game) {
       (local >= puntajeParaGanar || visitante >= puntajeParaGanar) && juegoTerminado();
     }
-    setGame(true);
-  }, [local, visitante, ganador]);
+  }, [local, visitante]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,6 +52,8 @@ export default function App() {
           setVisitante,
           ganador,
           setGanador,
+          nombreLocal,
+          nombreVisitante,
         }}
       >
         <StatusBar barStyle={"default"} hidden={false} />

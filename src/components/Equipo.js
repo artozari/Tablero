@@ -1,14 +1,34 @@
-import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, StatusBar } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  TouchableOpacity,
+  Image,
+  StatusBar,
+  TouchableWithoutFeedback,
+} from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { datosPartidoContext } from "../context/Context";
 import { equipoGanador } from "../utils/util";
+import NombreEquipo from "./NombreEquipo";
 // import {} from "expo-status-bar";
 
 const Equipo = ({ equipo }) => {
-  const { local, setLocal, visitante, setVisitante, ganador, setGanador, puntajeParaGanar } =
-    useContext(datosPartidoContext);
+  const {
+    local,
+    setLocal,
+    visitante,
+    setVisitante,
+    ganador,
+    setGanador,
+    puntajeParaGanar,
+    nombreLocal,
+    nombreVisitante,
+  } = useContext(datosPartidoContext);
 
   const [punto, setPunto] = useState(0);
+  const [nombreEquipo, setNombreEquipo] = useState(equipo === 1 ? nombreLocal : nombreVisitante);
 
   const sumarPuntaje = () =>
     equipo == 1 ? setLocal((prevLocal) => prevLocal + 1) : setVisitante((prevVisitante) => prevVisitante + 1);
@@ -30,18 +50,19 @@ const Equipo = ({ equipo }) => {
   }, [ganador]);
 
   return (
-    <TouchableOpacity onPress={sumarPuntaje}>
+    <TouchableWithoutFeedback onPress={sumarPuntaje}>
       <View style={styles.puntaje}>
         <Image
           source={equipo === 1 ? require("../images/fondoCalipso.png") : require("../images/fondoRojo.png")}
           style={styles.backgroundImage}
         />
+        <NombreEquipo nombre={(nombre = nombreEquipo)} />
         <Text style={styles.marcador}>{equipo == 1 ? local : visitante}</Text>
         <TouchableOpacity style={equipo === 1 ? styles.btnMenosL : styles.btnMenosV} onPress={restarPuntaje}>
           <Image source={require("../images/signoMenos.png")} style={styles.backgroundSignoMenos} />
         </TouchableOpacity>
       </View>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 };
 
