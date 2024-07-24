@@ -6,8 +6,6 @@ import { datosPartidoContext } from "./src/context/Context";
 import { diferenciaDe2, equipoGanador } from "./src/utils/util";
 
 export default function App() {
-  // const [orientation, setOrientation] = useState(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-
   const [local, setLocal] = useState(0);
   const [visitante, setVisitante] = useState(0);
   const [ganador, setGanador] = useState(0);
@@ -44,7 +42,7 @@ export default function App() {
           setGanador,
         }}
       >
-        <StatusBar barStyle={"default"} showHideTransition={"fade"} />
+        <StatusBar barStyle={"default"} hidden={false} />
         <Equipo equipo={1} />
         <Equipo equipo={2} />
       </datosPartidoContext.Provider>
@@ -54,7 +52,6 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     flex: 1,
     flexDirection: "row",
     backgroundColor: "#000",

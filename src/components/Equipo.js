@@ -14,7 +14,6 @@ const Equipo = ({ equipo }) => {
     equipo == 1 ? setLocal((prevLocal) => prevLocal + 1) : setVisitante((prevVisitante) => prevVisitante + 1);
 
   const restarPuntaje = () => {
-    // equipo == 1 ?  : setVisitante((prevVisitante) => prevVisitante - 1);
     if (equipo == 1) {
       if (local > 0) {
         setLocal((prevLocal) => prevLocal - 1);
@@ -32,7 +31,6 @@ const Equipo = ({ equipo }) => {
 
   return (
     <TouchableOpacity onPress={sumarPuntaje}>
-      <StatusBar hidden={false} />
       <View style={styles.puntaje}>
         <Image
           source={equipo === 1 ? require("../images/fondoCalipso.png") : require("../images/fondoRojo.png")}
