@@ -1,57 +1,46 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  TouchableOpacity,
-  Image,
-  StatusBar,
-} from "react-native";
+import { StyleSheet, Text, View, Dimensions, TouchableOpacity, Image, StatusBar } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { datosPartidoContext } from "../context/Context";
+import { equipoGanador } from "../utils/util";
 // import {} from "expo-status-bar";
 
 const Equipo = ({ equipo }) => {
-  const {
-    local,
-    setLocal,
-    visitante,
-    setVisitante,
-    ganador,
-    puntajeParaGanar,
-  } = useContext(datosPartidoContext);
+  const { local, setLocal, visitante, setVisitante, ganador, setGanador, puntajeParaGanar } =
+    useContext(datosPartidoContext);
 
   const [punto, setPunto] = useState(0);
 
-  const sumarPuntaje = () => setPunto((prevPunto) => prevPunto + 1);
+  const sumarPuntaje = () =>
+    equipo == 1 ? setLocal((prevLocal) => prevLocal + 1) : setVisitante((prevVisitante) => prevVisitante + 1);
 
-  const restarPuntaje = () => setPunto((prevPunto) => prevPunto - 1);
+  const restarPuntaje = () => {
+    // equipo == 1 ?  : setVisitante((prevVisitante) => prevVisitante - 1);
+    if (equipo == 1) {
+      if (local > 0) {
+        setLocal((prevLocal) => prevLocal - 1);
+      }
+    } else {
+      if (visitante > 0) {
+        setVisitante((prevVisitante) => prevVisitante - 1);
+      }
+    }
+  };
 
   useEffect(() => {
-    equipo == 1 ? setLocal(punto) : setVisitante(punto);
-  }, [punto]);
+    ganador > 0 && setLocal(0), setVisitante(0);
+  }, [ganador]);
 
   return (
     <TouchableOpacity onPress={sumarPuntaje}>
       <StatusBar hidden={false} />
       <View style={styles.puntaje}>
         <Image
-          source={
-            equipo === 1
-              ? require("../images/fondoCalipso.png")
-              : require("../images/fondoRojo.png")
-          }
+          source={equipo === 1 ? require("../images/fondoCalipso.png") : require("../images/fondoRojo.png")}
           style={styles.backgroundImage}
         />
         <Text style={styles.marcador}>{equipo == 1 ? local : visitante}</Text>
-        <TouchableOpacity
-          style={equipo === 1 ? styles.btnMenosL : styles.btnMenosV}
-          onPress={restarPuntaje}
-        >
-          <Image
-            source={require("../images/signoMenos.png")}
-            style={styles.backgroundSignoMenos}
-          />
+        <TouchableOpacity style={equipo === 1 ? styles.btnMenosL : styles.btnMenosV} onPress={restarPuntaje}>
+          <Image source={require("../images/signoMenos.png")} style={styles.backgroundSignoMenos} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
