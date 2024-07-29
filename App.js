@@ -4,6 +4,7 @@ import * as ScreenOrientation from "expo-screen-orientation";
 import React, { useContext, useEffect, useState } from "react";
 import { datosPartidoContext } from "./src/context/Context";
 import { diferenciaDe2, equipoGanador } from "./src/utils/util";
+import TableroCentral from "./src/components/TableroCentral";
 
 export default function App() {
   const [local, setLocal] = useState(0);
@@ -59,6 +60,7 @@ export default function App() {
         <StatusBar barStyle={"default"} hidden={false} />
         <Equipo equipo={1} />
         <Equipo equipo={2} />
+        <TableroCentral />
       </datosPartidoContext.Provider>
     </SafeAreaView>
   );

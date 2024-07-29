@@ -15,14 +15,16 @@ export default NombreEquipo;
 
 const style = StyleSheet.create({
   NombreEquipo: {
+    top: "5%",
     backgroundColor: "#000",
     width: "90%",
     height: "auto",
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: "#fff",
+    position: "absolute",
   },
   txtNombre: {
     fontSize: 30,
